@@ -83,10 +83,21 @@ while stop == False:
     msg = input()
     if msg == 'exit':
         stop = True
+    # Encrypting the message
     encMsg = functions.intListToString(sol.encrypt(msg))
+    # Sending the message with streamCount
+    functions.send_msg(clientSocket, str(sol.streamCount))
     functions.send_msg(clientSocket, encMsg)
+
+    # Reading stream count
+    peerStreamCount = int(functions.read_from_socket(clientSocket).decode('utf-8'))
+    # Reading message
     formatedMsg = functions.stringToIntList(functions.read_from_socket(clientSocket).decode('utf-8'))
-    msg = sol.decrypt(formatedMsg).decode('utf-8')
+
+    # Checking if streamCount is shifted
+    functions.handleDesincronization(peerStreamCount, sol, len(formatedMsg))
+
+    msg = sol.decrypt(formatedMsg)
     if msg == 'exit':
         stop = True
     print(msg)

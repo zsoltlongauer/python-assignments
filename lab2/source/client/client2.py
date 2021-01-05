@@ -62,12 +62,20 @@ print('Waiting for conversation to start')
 
 msg = ''
 while msg != 'exit':
+    # Reading streamCount and msg
+    peerStreamCount = int(functions.read_from_socket(conn).decode('utf-8'))
     formatedMsg = functions.stringToIntList(functions.read_from_socket(conn).decode('utf-8'))
+    
     if formatedMsg == 'exit':
         break
+
+    # Checking if streamCount is shifted
+    functions.handleDesincronization(peerStreamCount, sol, len(formatedMsg))
+
     print(sol.decrypt(formatedMsg))
     msg = input()
     encMsg = functions.intListToString(sol.encrypt(msg))
+    functions.send_msg(conn, str(sol.streamCount))
     functions.send_msg(conn, encMsg)
 
 functions.send_msg(socket, json.dumps({"close": True}))

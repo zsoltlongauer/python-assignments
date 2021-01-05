@@ -57,3 +57,8 @@ def stringToJSON(string):
     except:
         print('JSON parse error')
         return -1
+
+
+def handleDesincronization(streamCount, solitaire, msgLen):
+    if streamCount > solitaire.streamCount + msgLen:
+        solitaire.__getKeysTream__(streamCount - solitaire.streamCount - msgLen)

@@ -56,11 +56,11 @@ class Knapsack:
 
     def __getPrivateKey__(self, n):
         privateKey = []
-        privateKey.append(random.randint(0,35))
+        privateKey.append(random.randint(1,25))
         sumSA = privateKey[0]
 
         for _ in range(1, n):
-            nextNum = sumSA + random.randint(0, 15)
+            nextNum = sumSA + random.randint(1, 15)
             privateKey.append(nextNum)
             sumSA += nextNum
 
@@ -77,7 +77,7 @@ class Knapsack:
         return publicKey
 
     def __defineM__(self, privateKey):
-        return sum(privateKey) + random.randint(0, 10)
+        return sum(privateKey) + random.randint(1, 10)
 
     def __defineN__(self, m):
         x = 2

@@ -17,6 +17,9 @@ class SolitaireTest(unittest.TestCase):
         self.solitaire1.phraseShuffle(phrase)
         self.solitaire2.phraseShuffle(phrase)
 
+        testList = [i for i in range(54)]
+        # a and b have the same elements in the same number, regardless of their order
+        self.assertCountEqual(testList, self.solitaire1.deck)
         self.assertEquals(self.solitaire1.deck, self.solitaire2.deck)
 
     def test_encryption(self):
@@ -30,6 +33,7 @@ class SolitaireTest(unittest.TestCase):
         cipherText2 = self.solitaire2.encrypt(message)
 
         self.assertEquals(cipherText1, cipherText2)
+        self.assertEquals(self.solitaire1.streamCount, self.solitaire2.streamCount)
 
     
     def test_correctness(self):

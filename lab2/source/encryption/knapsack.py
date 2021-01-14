@@ -11,47 +11,59 @@ class Knapsack:
         # We can encrypt messages with other publicKeys
         if pubKey == None:
             pubKey = self.publicKey
+
         encryptedMsg = []
 
         # Converting the msg into bit array
         bitMsg = BitArray(str.encode(msg))
         bitSum = 0
+
         # Variable to loop trough our private key
         j = 0
+
         for i in range(0, len(bitMsg)):
             if j == len(pubKey):
                 encryptedMsg.append(bitSum)
                 bitSum = 0
                 j = 0
+
             bitSum += int(bitMsg[i]) * pubKey[j]
             j += 1
+
         if j != 0:
             encryptedMsg.append(bitSum)
+
         return encryptedMsg
 
     def decrypt(self, msg):
         decryptedMsg = ''
         invN = pow(self.n, -1, self.m)
+
         for i in msg:
             invMul = (invN * i)%self.m
             partMsg = ''
+
             for j in range(self.len-1, -1, -1):
                 if self.privateKey[j] <= invMul:
                     partMsg += '1'
                     invMul -= self.privateKey[j]
                 else:
                     partMsg += '0'
+
             decryptedMsg += partMsg[::-1]
+
         return self.decode_binary_string(decryptedMsg)
 
     def __getPrivateKey__(self, n):
         privateKey = []
         privateKey.append(random.randint(0,35))
         sumSA = privateKey[0]
+
         for _ in range(1, n):
             nextNum = sumSA + random.randint(0, 15)
             privateKey.append(nextNum)
             sumSA += nextNum
+
         return privateKey
 
     def __getPublicKey__(self, privateKey):
@@ -61,6 +73,7 @@ class Knapsack:
         publicKey = []
         for i in privateKey:
             publicKey.append((i * self.n)%self.m)
+            
         return publicKey
 
     def __defineM__(self, privateKey):

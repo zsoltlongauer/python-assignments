@@ -119,15 +119,5 @@ with factory.socket(factory.AF_INET, factory.SOCK_STREAM) as server:
     for t in threads:
         t.join()
 
-
-
-
-# TODO: Correct steps:
-            # 1. Client 1 connects to the keyserver
-            # 2. Client 1 sends  message to Client 2
-            # 3. Client 2 asks for the key of Client 1
-            # 4. Client 2 sends a confirmation msg to Client 1
-            # 5. Communication starts
-
     
 
